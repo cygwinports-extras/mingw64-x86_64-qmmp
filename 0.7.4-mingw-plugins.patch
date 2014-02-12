@@ -1,0 +1,52 @@
+--- origsrc/qmmp-0.7.4/src/qmmp/CMakeLists.txt	2013-12-24 00:29:48.000000000 -0600
++++ src/qmmp-0.7.4/src/qmmp/CMakeLists.txt	2014-02-12 01:16:14.859291900 -0600
+@@ -14,7 +14,9 @@ ADD_DEFINITIONS(-DQT_NO_DEBUG)
+ ADD_DEFINITIONS(-DQT_SHARED)
+ ADD_DEFINITIONS(-DQT_THREAD)
+ ADD_DEFINITIONS(-DLIB_DIR=\\\"\\/${LIB_DIR}\\\")
++IF(NOT WIN32)
+ ADD_DEFINITIONS(-DQMMP_INSTALL_PREFIX=\\\"${CMAKE_INSTALL_PREFIX}\\\")
++ENDIF(NOT WIN32)
+ 
+ IF(NOT QMMP_VERSION_STABLE) #add svn revision
+ execute_process(COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/svn_revision.sh
+--- origsrc/qmmp-0.7.4/src/qmmp/qmmp.cpp	2013-12-24 00:29:48.000000000 -0600
++++ src/qmmp-0.7.4/src/qmmp/qmmp.cpp	2014-02-12 01:17:47.777606500 -0600
+@@ -70,7 +70,7 @@ const QString Qmmp::pluginsPath()
+     QDir dir(QMMP_INSTALL_PREFIX"/"LIB_DIR"/qmmp");
+     //qDebug(QMMP_INSTALL_PREFIX"/"LIB_DIR"/qmmp");
+ #else
+-#if defined(Q_OS_WIN32) && !defined(Q_OS_CYGWIN)
++#if defined(Q_OS_WIN32) && !defined(Q_CC_MINGW) && !defined(Q_OS_CYGWIN)
+     QDir dir(qApp->applicationDirPath() + "/plugins");
+ #else
+     QDir dir(qApp->applicationDirPath() + "/../"LIB_DIR"/qmmp");
+--- origsrc/qmmp-0.7.4/src/plugins/General/hotkey/CMakeLists.txt	2013-12-24 00:29:50.000000000 -0600
++++ src/qmmp-0.7.4/src/plugins/General/hotkey/CMakeLists.txt	2014-02-12 02:04:42.178108300 -0600
+@@ -75,9 +75,9 @@ QT4_WRAP_UI(libhotkey_UIS_H ${libhotkey_
+ # the UI file won't be wrapped!
+ include_directories(${CMAKE_CURRENT_BINARY_DIR})
+ 
+-IF(X11_FOUND)
++IF(X11_FOUND OR WIN32)
+ ADD_LIBRARY(hotkey MODULE ${libhotkey_SRCS} ${libhotkey_MOC_SRCS} ${libhotkey_UIS_H} ${libhotkey_RCC_SRCS})
+ add_dependencies(hotkey qmmpui)
+ target_link_libraries(hotkey ${QT_LIBRARIES} -lqmmpui -lqmmp ${X11_LDFLAGS})
+ install(TARGETS hotkey DESTINATION ${LIB_DIR}/qmmp/General)
+-ENDIF(X11_FOUND)
++ENDIF(X11_FOUND OR WIN32)
+--- origsrc/qmmp-0.7.4/src/plugins/Ui/skinned/CMakeLists.txt	2013-12-24 00:29:49.000000000 -0600
++++ src/qmmp-0.7.4/src/plugins/Ui/skinned/CMakeLists.txt	2014-02-12 02:05:04.984412700 -0600
+@@ -162,10 +162,10 @@ QT4_WRAP_UI(skinned_UIS_H ${skinned_UIS}
+ # the UI file won't be wrapped!
+ include_directories(${CMAKE_CURRENT_BINARY_DIR})
+ 
+-IF(X11_FOUND)
++IF(X11_FOUND OR WIN32)
+ ADD_LIBRARY(skinned MODULE ${skinned_SRCS} ${skinned_MOC_SRCS} ${skinned_UIS_H} ${skinned_RCC_SRCS} ${skinned_HDRS})
+ target_link_libraries(skinned ${QT_LIBRARIES} libqmmp qmmpui ${X11_LDFLAGS})
+ add_dependencies(skinned qmmpui libqmmp)
+ target_link_libraries(skinned ${QT_LIBRARIES} -lqmmpui -lqmmp ${X11_LDFLAGS})
+ install(TARGETS skinned DESTINATION ${LIB_DIR}/qmmp/Ui)
+-ENDIF(X11_FOUND)
++ENDIF(X11_FOUND OR WIN32)

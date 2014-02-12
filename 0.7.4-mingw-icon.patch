@@ -1,0 +1,20 @@
+--- origsrc/qmmp-0.7.4/src/app/CMakeLists.txt	2014-02-12 04:32:15.996106800 -0600
++++ src/qmmp-0.7.4/src/app/CMakeLists.txt	2014-02-12 04:33:21.731866700 -0600
+@@ -14,7 +14,6 @@ INCLUDE(FindQt4)
+ 
+ include(${QT_USE_FILE})
+ 
+-ADD_DEFINITIONS( -Wall )
+ ADD_DEFINITIONS(-DQT_NO_DEBUG)
+ ADD_DEFINITIONS(-DQT_THREAD)
+ 
+@@ -35,6 +34,9 @@ SET(app_SRCS
+     lxdesupport.cpp
+     qmmpapplication.cpp
+ )
++if(WIN32)
++SET(app_SRCS ${app_SRCS} images/56x56/icon.rc)
++endif(WIN32)
+ 
+ SET(app_HDRS lxdesupport.h)
+ 
