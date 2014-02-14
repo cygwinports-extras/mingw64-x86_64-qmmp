@@ -2,7 +2,7 @@ CROSS_HOST="x86_64-w64-mingw32"
 inherit cross qt4-cmake
 
 NAME="mingw64-x86_64-qmmp"
-VERSION=0.7.4
+VERSION=0.7.5
 RELEASE=1
 CATEGORY="Devel"
 SUMMARY="QMMP for Win32 toolchain"
