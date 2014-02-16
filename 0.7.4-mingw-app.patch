@@ -18,3 +18,11 @@
  
  SET(app_HDRS lxdesupport.h)
  
+@@ -58,6 +60,7 @@ include_directories(${CMAKE_CURRENT_BINA
+ ADD_EXECUTABLE(qmmp ${app_SRCS} ${app_MOC_SRCS} ${app_RCC_SRCS} ${app_HDRS})
+ target_link_libraries(qmmp ${QT_LIBRARIES} libqmmp qmmpui)
+ add_dependencies(qmmp qmmpui libqmmp)
++set_target_properties(qmmp PROPERTIES LINK_FLAGS "${CMAKE_CREATE_WIN32_EXE}")
+ install(TARGETS qmmp DESTINATION bin)
+ install(FILES qmmp.desktop DESTINATION share/applications)
+ install(FILES images/16x16/qmmp.png DESTINATION share/icons/hicolor/16x16/apps)

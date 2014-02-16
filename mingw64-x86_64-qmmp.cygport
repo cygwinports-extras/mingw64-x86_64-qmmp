@@ -13,7 +13,7 @@ SRC_URI="http://qmmp.ylsoftware.com/files/qmmp-${VERSION}.tar.bz2"
 SRC_DIR="qmmp-${VERSION}"
 PATCH_URI="
 	0.7.2-waveout.patch
-	0.7.4-mingw-icon.patch
+	0.7.4-mingw-app.patch
 	0.7.4-mingw-plugins.patch
 "
 
